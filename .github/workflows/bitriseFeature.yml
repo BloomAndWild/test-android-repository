@@ -15,18 +15,17 @@ jobs:
           ${{ github.event.INSERT_HERE }}
           BODY=
           BODY=$BODY'{'
-          BODY=$BODY'  {'
-          BODY=$BODY'    "hook_info":{'
-          BODY=$BODY'      "type":"bitrise",'
-          BODY=$BODY'      "build_trigger_token":"0gPjv5gqLVo5s1gx5IFdJw"'
-          BODY=$BODY'    },'
-          BODY=$BODY'    "build_params":{'
-          BODY=$BODY'      "branch":"feature/implement-version-bump-script",'
-          BODY=$BODY'      "workflow_id":"feature",'
-          BODY=$BODY'      "commit_hash":"88e74164242ab2c646898cbe61d4d648bf3f3334"'
-          BODY=$BODY'    },'
-          BODY=$BODY'    "triggered_by":"curl"'
-          BODY=$BODY'  }'
+          BODY=$BODY'  "hook_info":{'
+          BODY=$BODY'    "type":"bitrise",'
+          BODY=$BODY'    "build_trigger_token":"0gPjv5gqLVo5s1gx5IFdJw"'
+          BODY=$BODY'  },'
+          BODY=$BODY'  "build_params":{'
+          BODY=$BODY'    "branch":"feature/implement-version-bump-script",'
+          BODY=$BODY'    "workflow_id":"feature",'
+          BODY=$BODY'    "commit_hash":"88e74164242ab2c646898cbe61d4d648bf3f3334"'
+          BODY=$BODY'  },'
+          BODY=$BODY'  "triggered_by":"curl"'
+          BODY=$BODY'}'
           echo "BODY: ${BODY}"
           curl \
             --data "${BODY}" \
