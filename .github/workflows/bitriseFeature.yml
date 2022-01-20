@@ -16,7 +16,7 @@ jobs:
           BODY=$BODY'{'
           BODY=$BODY'  "hook_info":{'
           BODY=$BODY'    "type":"bitrise",'
-          BODY=$BODY'    "build_trigger_token":"0gPjv5gqLVo5s1gx5IFdJw"'
+          BODY=$BODY'    "build_trigger_token":"${{ secrets.BITRISE_FEATURE_TOKEN }}"'
           BODY=$BODY'  },'
           BODY=$BODY'  "build_params":{'
           BODY=$BODY'    "branch":"${{ github.event.pull_request.head.ref }}",'
