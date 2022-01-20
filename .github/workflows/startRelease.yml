@@ -1,0 +1,31 @@
+name: StartRelease
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      bandw_version:
+        description: 'The version of Bloom&Wild app to update'
+        required: false
+        type: string
+      bloomon_version:
+        description: 'The version of bloomon app to update'
+        required: false
+        type: string
+jobs:
+  startRelease:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Run the startRelease script
+        run: |
+          ./scripts/startRelease.sh \
+            --bandw "${{ github.event.inputs.bandw_version }}" \
+            --bloomon "${{ github.event.inputs.bloomon_version }}" \
+            --user "${{ secrets.RELEASY_USER }}" \
+            --email "${{ secrets.RELEASY_EMAIL }}" \
+            --token "${{ secrets.RELEASY_TOKEN }}"

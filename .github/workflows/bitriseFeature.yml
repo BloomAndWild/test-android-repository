@@ -1,0 +1,43 @@
+name: Feature CI
+on:
+  pull_request:
+    branches: [ develop ]
+    types: [labeled, synchronize]
+jobs:
+  runCI:
+    if: >-
+      (github.event.action == 'labeled' && github.event.label.name == 'ready') ||
+      (github.event.action == 'synchronize' && contains(github.event.pull_request.labels.*.name, 'ready'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run feature branch CI
+        run: |
+          BODY=
+          BODY=$BODY'{'
+          BODY=$BODY'   "hook_info":{'
+          BODY=$BODY'      "type":"bitrise",'
+          BODY=$BODY'      "build_trigger_token":"0gPjv5gqLVo5s1gx5IFdJw"'
+          BODY=$BODY'   },'
+          BODY=$BODY'   "build_params":{'
+          BODY=$BODY'      "branch":"${{ github.event.pull_request.head.ref }}",'
+          BODY=$BODY'      "workflow_id":"feature",'
+          BODY=$BODY'      "commit_hash":"${{ github.event.pull_request.head.sha }}",'
+          BODY=$BODY'      "environments":['
+          BODY=$BODY'         {'
+          BODY=$BODY'            "mapped_to":"GIT_REPOSITORY_URL",'
+          BODY=$BODY'            "value":"${{ github.event.repository.ssh_url }}",'
+          BODY=$BODY'            "is_expand":true'
+          BODY=$BODY'         },'
+          BODY=$BODY'         {'
+          BODY=$BODY'            "mapped_to":"PULL_REQUEST_ID",'
+          BODY=$BODY'            "value":"${{ github.event.pull_request.id }}",'
+          BODY=$BODY'            "is_expand":true'
+          BODY=$BODY'         }'
+          BODY=$BODY'      ]'
+          BODY=$BODY'   },'
+          BODY=$BODY'   "triggered_by":"curl"'
+          BODY=$BODY'}'
+          echo "BODY: ${BODY}"
+          curl \
+            --data "${BODY}" \
+            https://app.bitrise.io/app/75d16fae86cc3924/build/start.json 
