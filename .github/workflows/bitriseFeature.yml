@@ -1,8 +1,12 @@
 name: Feature CI
 on:
   pull_request:
-    branches: [ develop ]
-    types: [labeled, synchronize]
+    branches:
+      - 'develop'
+      - 'release/**'
+    types:
+      - labeled
+      - synchronize
 jobs:
   runCI:
     if: >-
@@ -25,6 +29,7 @@ jobs:
           BODY=$BODY'  },'
           BODY=$BODY'  "triggered_by":"curl"'
           BODY=$BODY'}'
-          curl \
-            --data "${BODY}" \
-            https://app.bitrise.io/app/75d16fae86cc3924/build/start.json 
+          #curl \
+          #  --data "${BODY}" \
+          #  https://app.bitrise.io/app/75d16fae86cc3924/build/start.json 
+          echo $BODY
