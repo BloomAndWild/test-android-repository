@@ -1,0 +1,35 @@
+name: Update Develop After Release
+
+# This action runs when a pull request to master is closed
+on:
+  pull_request:
+    branches:
+      - master
+    types: [ closed ]
+
+jobs:
+  deployRelease:
+    # This job runs when this pull request that is being closed is merged
+    if: >-
+      github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    env:
+      HEAD: ${{ github.event.pull_request.head.ref }}
+      BASE: develop
+      TITLE: ${{ github.event.pull_request.head.ref }} to develop
+      DESCRIPTION: This pull request was created to guarantee that the develop branch stays updated after releasing to master.
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Create the pull request from the release branch to develop
+        run: |
+          ./scripts/openPullRequest.sh \
+            --base "${{ env.BASE }}" \
+            --head "${{ env.HEAD }}" \
+            --title "${{ env.TITLE }}" \
+            --description "${{ env.DESCRIPTION }}" \
+            --user "${{ secrets.RELEASY_USER }}" \
+            --email "${{ secrets.RELEASY_EMAIL }}" \
+            --token "${{ secrets.RELEASY_TOKEN }}"
