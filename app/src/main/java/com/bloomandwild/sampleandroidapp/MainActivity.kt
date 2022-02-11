@@ -10,5 +10,6 @@ class MainActivity : AppCompatActivity() {
         println("hello again")
         println("test")
         println("rb")
+        println("new!")
     }
 }
