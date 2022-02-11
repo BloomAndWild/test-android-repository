@@ -23,14 +23,11 @@ jobs:
       # Runs a single command using the runners shell
       - name: Create the pull request from the release branch to develop
         run: |
-          TITLE='${{ env.FROM_BRANCH }} to ${{ env.TO_BRANCH }}'
-          DESCRIPTION='This pull request was generated from a closed and merged pull request to the master branch.\nMerging ${{ env.FROM_BRANCH }} to ${{ env.TO_BRANCH }}'
-
           ./scripts/openPullRequest.sh \
             --base "${{ env.BASE }}" \
             --head "${{ env.HEAD }}" \
-            --title "${{ env.TITLE }}" \
-            --description "${{ env.DESCRIPTION }}" \
+            --title "${{ env.FROM_BRANCH }} to ${{ env.TO_BRANCH }}" \
+            --description "This pull request was generated from a closed and merged pull request to the master branch.\nMerging ${{ env.FROM_BRANCH }} to ${{ env.TO_BRANCH }}" \
             --user "${{ secrets.RELEASY_USER }}" \
             --email "${{ secrets.RELEASY_EMAIL }}" \
             --token "${{ secrets.RELEASY_TOKEN }}"
