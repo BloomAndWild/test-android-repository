@@ -8,7 +8,7 @@ on:
     types: [ closed ]
 
 jobs:
-  deployRelease:
+  updateDevelopAfterRelease:
     # This job runs when this pull request that is being closed is merged
     if: >-
       github.event.pull_request.merged == true
