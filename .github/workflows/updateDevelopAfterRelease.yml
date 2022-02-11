@@ -14,10 +14,8 @@ jobs:
       github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     env:
-      HEAD: ${{ github.event.pull_request.head.ref }}
-      BASE: develop
-      TITLE: ${{ github.event.pull_request.head.ref }} to develop
-      DESCRIPTION: This pull request was created to guarantee that the develop branch stays updated after releasing to master.
+      FROM_BRANCH: ${{ github.event.pull_request.head.ref }}
+      TO_BRANCH: develop
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -25,6 +23,9 @@ jobs:
       # Runs a single command using the runners shell
       - name: Create the pull request from the release branch to develop
         run: |
+          TITLE="${{ env.FROM_BRANCH }} to ${{ env.TO_BRANCH }}"
+          DESCRIPTION="This pull request was generated from a closed and merged pull request to the master branch.\nMerging ${{ env.FROM_BRANCH }} to ${{ env.TO_BRANCH }}"
+
           ./scripts/openPullRequest.sh \
             --base "${{ env.BASE }}" \
             --head "${{ env.HEAD }}" \
